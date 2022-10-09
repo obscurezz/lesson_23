@@ -1,7 +1,8 @@
+from re import search
 from typing import Iterable
 
 
-def file_to_generator(filename: str):
+def file_to_generator(filename: str) -> Iterable:
     with open(filename, 'r', encoding='utf-8') as file:
         while True:
             try:
@@ -21,16 +22,18 @@ class QueryPerformer:
         return list(map(lambda x: x.split()[col_number], data_array))
 
     @staticmethod
-    def unique(data_array: Iterable, empty_value=None) -> list:
+    def unique(data_array: Iterable, empty_value: None = None) -> list:
         return list(set(data_array))
 
     @staticmethod
     def sort(data_array: Iterable, order: str) -> list:
-        if order == 'asc':
-            return sorted(data_array)
-        elif order == 'desc':
-            return sorted(data_array, reverse=True)
+        return sorted(data_array, reverse=True) if order == 'desc' else sorted(data_array)
 
     @staticmethod
     def limit(data_array: Iterable, count: int) -> list:
         return list(data_array)[:count]
+
+    @staticmethod
+    def regex(data_array: Iterable, reg_expression: str) -> list:
+        result: list = [row for row in data_array if search(rf'{reg_expression}', row)]
+        return result
