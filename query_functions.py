@@ -19,6 +19,8 @@ class QueryPerformer:
 
     @staticmethod
     def map(data_array: Iterable, col_number: int) -> list:
+        if col_number < 0:
+            raise ValueError('Column number should be only a positive number')
         return list(map(lambda x: x.split()[col_number], data_array))
 
     @staticmethod
@@ -27,6 +29,8 @@ class QueryPerformer:
 
     @staticmethod
     def sort(data_array: Iterable, order: str) -> list:
+        if order not in ('asc', 'desc'):
+            raise ValueError('Order type could be only asc or desc')
         return sorted(data_array, reverse=True) if order == 'desc' else sorted(data_array)
 
     @staticmethod
